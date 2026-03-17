@@ -50,3 +50,16 @@ jobs:
       - name: Process check
         if: always()
         run: exit $CHECK_STATUS
+  terraform-validate:
+    runs-on: ubuntu-latest
+    name: terraform validate check
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.4
+      - name: Terraform Init
+        run: terraform -chdir=infrastructure init
+      - name: Terraform Validate
+        run: terraform -chdir=infrastructure validate
